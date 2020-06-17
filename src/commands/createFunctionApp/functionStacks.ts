@@ -31,6 +31,41 @@ export function getWindowsFunctionsStacks(): IFunctionStack[] {
     return getFunctionStacks(windowsFunctionsStacks);
 }
 
+/**
+ * I constructed v1 stacks myself because they're not accurate in the above mentioned repo
+ * https://github.com/pragnagopa/azure-functions-supported-runtime-stacks/issues/5
+ */
+export function getV1Stacks(): IFunctionStack[] {
+    return [
+        {
+            name: 'dotnet',
+            display: '.NET Framework',
+            majorVersions: [
+                {
+                    displayVersion: '4.7',
+                    supportedFunctionsExtensionVersions: ['~1'],
+                    runtimeVersion: 'dotnet',
+                    appSettingsDictionary: {},
+                    siteConfigPropertiesDictionary: {}
+                }
+            ]
+        },
+        {
+            name: 'node',
+            display: 'Node.js',
+            majorVersions: [
+                {
+                    displayVersion: '6',
+                    supportedFunctionsExtensionVersions: ['~1'],
+                    runtimeVersion: 'node',
+                    appSettingsDictionary: {},
+                    siteConfigPropertiesDictionary: {}
+                }
+            ]
+        }
+    ];
+}
+
 function getFunctionStacks(data: string): IFunctionStack[] {
     return (<{ value: { properties: IFunctionStack }[] }>JSON.parse(data)).value.map(v => v.properties);
 }
