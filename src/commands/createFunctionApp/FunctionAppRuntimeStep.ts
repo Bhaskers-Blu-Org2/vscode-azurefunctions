@@ -7,9 +7,8 @@ import * as semver from 'semver';
 import { WebsiteOS } from 'vscode-azureappservice';
 import { AzureWizardPromptStep, IAzureQuickPickItem } from 'vscode-azureextensionui';
 import { ext } from '../../extensionVariables';
-import { FuncVersion } from '../../FuncVersion';
 import { localize } from '../../localize';
-import { getLinuxFunctionsStacks, getV1Stacks, getWindowsFunctionsStacks, IFunctionStack } from './functionStacks';
+import { getLinuxFunctionsStacks, getWindowsFunctionsStacks, IFunctionStack } from './functionStacks';
 import { IFunctionAppWizardContext, INewSiteStacks } from './IFunctionAppWizardContext';
 
 /**
@@ -46,9 +45,7 @@ export class FunctionAppRuntimeStep extends AzureWizardPromptStep<IFunctionAppWi
     private getPicks(context: IFunctionAppWizardContext): IAzureQuickPickItem<INewSiteStacks>[] {
         const picks: IAzureQuickPickItem<INewSiteStacks>[] = [];
 
-        const allStacks: [WebsiteOS, IFunctionStack[]][] = context.version === FuncVersion.v1 ?
-            [[WebsiteOS.windows, getV1Stacks()]] :
-            [[WebsiteOS.windows, getWindowsFunctionsStacks()], [WebsiteOS.linux, getLinuxFunctionsStacks()]];
+        const allStacks: [WebsiteOS, IFunctionStack[]][] = [[WebsiteOS.windows, getWindowsFunctionsStacks()], [WebsiteOS.linux, getLinuxFunctionsStacks()]];
 
         for (const [os, stacks] of allStacks) {
             for (const stack of stacks) {

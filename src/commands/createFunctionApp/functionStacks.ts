@@ -43,41 +43,6 @@ function filterFunctionStacks(stacks: IFunctionStack[]): IFunctionStack[] {
     return stacks;
 }
 
-/**
- * I constructed v1 stacks myself because they're not accurate in the above mentioned repo
- * https://github.com/pragnagopa/azure-functions-supported-runtime-stacks/issues/5
- */
-export function getV1Stacks(): IFunctionStack[] {
-    return [
-        {
-            name: 'dotnet',
-            display: '.NET Framework',
-            majorVersions: [
-                {
-                    displayVersion: '4.7',
-                    supportedFunctionsExtensionVersions: ['~1'],
-                    runtimeVersion: 'dotnet',
-                    appSettingsDictionary: {},
-                    siteConfigPropertiesDictionary: {}
-                }
-            ]
-        },
-        {
-            name: 'node',
-            display: 'Node.js',
-            majorVersions: [
-                {
-                    displayVersion: '6',
-                    supportedFunctionsExtensionVersions: ['~1'],
-                    runtimeVersion: 'node',
-                    appSettingsDictionary: {},
-                    siteConfigPropertiesDictionary: {}
-                }
-            ]
-        }
-    ];
-}
-
 function getFunctionStacks(data: string): IFunctionStack[] {
     return (<{ value: { properties: IFunctionStack }[] }>JSON.parse(data)).value.map(v => v.properties);
 }
@@ -95,19 +60,39 @@ const linuxFunctionsStacks: string = `{
                 "majorVersions": [
                     {
                         "displayVersion": "3.1",
+                        "runtimeVersion": "dotnet|3.1",
                         "supportedFunctionsExtensionVersions": [
                             "~3"
                         ],
-                        "runtimeVersion": "dotnet|3.1",
-                        "isDefault": false,
+                        "isDefault": true,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
-                            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-                            "linuxFxVersion": "dotnet|3.1"
+                            "FUNCTIONS_WORKER_RUNTIME": "dotnet"
                         },
                         "siteConfigPropertiesDictionary": {
-                            "Use32BitWorkerProcess": false
+                            "Use32BitWorkerProcess": false,
+                            "linuxFxVersion": "dotnet|3.1"
+                        },
+                        "isPreview": false,
+                        "isDeprecated": false,
+                        "isHidden": false
+                    },
+                    {
+                        "displayVersion": "2.2",
+                        "runtimeVersion": "dotnet|2.2",
+                        "supportedFunctionsExtensionVersions": [
+                            "~2"
+                        ],
+                        "isDefault": true,
+                        "minorVersions": [],
+                        "applicationInsights": true,
+                        "appSettingsDictionary": {
+                            "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+                        },
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": false,
+                            "linuxFxVersion": "dotnet|2.2"
                         },
                         "isPreview": false,
                         "isDeprecated": false,
@@ -154,7 +139,7 @@ const linuxFunctionsStacks: string = `{
                             "~2",
                             "~3"
                         ],
-                        "isDefault": false,
+                        "isDefault": true,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
@@ -284,7 +269,7 @@ const linuxFunctionsStacks: string = `{
                         "supportedFunctionsExtensionVersions": [
                             "~3"
                         ],
-                        "isDefault": true,
+                        "isDefault": false,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
@@ -321,7 +306,7 @@ const windowsFunctionsStacks: string = `{
                 "majorVersions": [
                     {
                         "displayVersion": "3.1",
-                        "runtimeVersion": null,
+                        "runtimeVersion": "3.1",
                         "supportedFunctionsExtensionVersions": [
                             "~3"
                         ],
@@ -331,7 +316,59 @@ const windowsFunctionsStacks: string = `{
                         "appSettingsDictionary": {
                             "FUNCTIONS_WORKER_RUNTIME": "dotnet"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
+                        "isPreview": false,
+                        "isDeprecated": false,
+                        "isHidden": false
+                    },
+                    {
+                        "displayVersion": "2.2",
+                        "runtimeVersion": "2.2",
+                        "supportedFunctionsExtensionVersions": [
+                            "~2"
+                        ],
+                        "isDefault": true,
+                        "minorVersions": [],
+                        "applicationInsights": true,
+                        "appSettingsDictionary": {
+                            "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+                        },
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
+                        "isPreview": false,
+                        "isDeprecated": false,
+                        "isHidden": false
+                    }
+                ],
+                "frameworks": [],
+                "isDeprecated": null
+            }
+        },
+        {
+            "id": null,
+            "name": ".Net Framework",
+            "type": "Microsoft.Web/availableStacks?osTypeSelected=WindowsFunctions",
+            "properties": {
+                "name": ".Net Framework",
+                "display": ".Net Framework",
+                "dependency": null,
+                "majorVersions": [
+                    {
+                        "displayVersion": "4.7",
+                        "runtimeVersion": "4.7",
+                        "supportedFunctionsExtensionVersions": [
+                            "~1"
+                        ],
+                        "isDefault": true,
+                        "minorVersions": [],
+                        "applicationInsights": true,
+                        "appSettingsDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -363,7 +400,9 @@ const windowsFunctionsStacks: string = `{
                             "FUNCTIONS_WORKER_RUNTIME": "node",
                             "WEBSITE_NODE_DEFAULT_VERSION": "~12"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -375,14 +414,16 @@ const windowsFunctionsStacks: string = `{
                             "~2",
                             "~3"
                         ],
-                        "isDefault": false,
+                        "isDefault": true,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
                             "FUNCTIONS_WORKER_RUNTIME": "node",
                             "WEBSITE_NODE_DEFAULT_VERSION": "~10"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -391,7 +432,6 @@ const windowsFunctionsStacks: string = `{
                         "displayVersion": "8",
                         "runtimeVersion": "~8",
                         "supportedFunctionsExtensionVersions": [
-                            "~1",
                             "~2"
                         ],
                         "isDefault": false,
@@ -401,7 +441,28 @@ const windowsFunctionsStacks: string = `{
                             "FUNCTIONS_WORKER_RUNTIME": "node",
                             "WEBSITE_NODE_DEFAULT_VERSION": "~8"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
+                        "isPreview": false,
+                        "isDeprecated": false,
+                        "isHidden": false
+                    },
+                    {
+                        "displayVersion": "6",
+                        "runtimeVersion": "6.11.2",
+                        "supportedFunctionsExtensionVersions": [
+                            "~1"
+                        ],
+                        "isDefault": false,
+                        "minorVersions": [],
+                        "applicationInsights": true,
+                        "appSettingsDictionary": {
+                            "WEBSITE_NODE_DEFAULT_VERSION": "6.11.2"
+                        },
+                        "siteConfigPropertiesDictionary": {
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -433,7 +494,10 @@ const windowsFunctionsStacks: string = `{
                         "appSettingsDictionary": {
                             "FUNCTIONS_WORKER_RUNTIME": "java"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "JavaVersion": "1.8",
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -444,13 +508,16 @@ const windowsFunctionsStacks: string = `{
                         "supportedFunctionsExtensionVersions": [
                             "~3"
                         ],
-                        "isDefault": true,
+                        "isDefault": false,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
                             "FUNCTIONS_WORKER_RUNTIME": "java"
                         },
-                        "siteConfigPropertiesDictionary": {},
+                        "siteConfigPropertiesDictionary": {
+                            "JavaVersion": "11",
+                            "Use32BitWorkerProcess": true
+                        },
                         "isPreview": false,
                         "isDeprecated": false,
                         "isHidden": false
@@ -483,7 +550,8 @@ const windowsFunctionsStacks: string = `{
                             "FUNCTIONS_WORKER_RUNTIME": "powershell"
                         },
                         "siteConfigPropertiesDictionary": {
-                            "PowerShellVersion": "~6"
+                            "PowerShellVersion": "~6",
+                            "Use32BitWorkerProcess": true
                         },
                         "isPreview": false,
                         "isDeprecated": false,
@@ -495,14 +563,15 @@ const windowsFunctionsStacks: string = `{
                         "supportedFunctionsExtensionVersions": [
                             "~3"
                         ],
-                        "isDefault": true,
+                        "isDefault": false,
                         "minorVersions": [],
                         "applicationInsights": true,
                         "appSettingsDictionary": {
                             "FUNCTIONS_WORKER_RUNTIME": "powershell"
                         },
                         "siteConfigPropertiesDictionary": {
-                            "PowerShellVersion": "~7"
+                            "PowerShellVersion": "~7",
+                            "Use32BitWorkerProcess": true
                         },
                         "isPreview": false,
                         "isDeprecated": false,
